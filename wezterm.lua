@@ -1,36 +1,62 @@
 
 local wezterm = require("wezterm")
 local act = wezterm.action
-local dimmer = { brightness = 0.2 }
+local dimmer = { brightness = 0.008 }
 
 
 local config = {}
 
 if wezterm.config_builder then config = wezterm.config_builder() end
 
+local act = wezterm.action
 
+-- Change mouse scroll amount
+config.mouse_bindings = {
+  {
+    event = { Down = { streak = 1, button = { WheelUp = 1 } } },
+    mods = 'NONE',
+    action = act.ScrollByLine(-3),
+  },
+  {
+    event = { Down = { streak = 1, button = { WheelDown = 1 } } },
+    mods = 'NONE',
+    action = act.ScrollByLine(3),
+  },
+}
+
+
+-- config.color_scheme = 'terafox'
+-- config.color_scheme = 'Material (terminal.sexy)'
+-- config.color_scheme = 'Material Darker (base16)'
+config.color_scheme = 'Mirage'
 -- config.color_scheme = "Tokyo Night"
 -- config.color_scheme = 'Tango (terminal.sexy)'
-config.color_scheme = 'terafox'
--- config.color_scheme = 'Tokyo Night'
+-- config.color_scheme = 'Batman'
+-- config.color_scheme = 'zenbones_dark'
 -- config.color_scheme = "Dracula"
+--
 config.font = wezterm.font_with_fallback({
-    {family="Hack Nerd Font Mono", scale = 1.3, weight="Regular"},
-    {family="Fira Code", scale = 1.3 },
-    {family="JetBrains Mono", scale = 1.3 },
+    {family="JetBrains Mono", scale = 1.4 },
+    {family="Fira Code", scale = 1.4 },
+    'Noto Color Emoji',
+    -- {family="Hack Nerd Font Mono", scale = 1.3, weight="Regular"},
 })
 
+-- config.font = wezterm.font('Fira Code', scale = 1.3)
+
+config.notification_handling = "AlwaysShow"
 config.window_background_opacity = 0.9
 config.window_decorations = "RESIZE"
 config.window_close_confirmation = "AlwaysPrompt"
-config.scrollback_lines = 3000
+config.scrollback_lines = 3500
+config.enable_scroll_bar = true
 config.default_workspace = "home"
 config.native_macos_fullscreen_mode = true
 config.tab_max_width = 32
 config.background = {
     {
         source = {
-            File = "/Users/yoandresaavedra/.config/wezterm/wall3.jpg"
+            File = "/Users/yoandresaavedra/.config/wezterm/jap5.jpg"
         },
         horizontal_align = "Center",
         width = "Cover",
@@ -71,6 +97,8 @@ config.keys = {
 
   -- Lastly, workspace
   { key = "w", mods = "LEADER",       action = act.ShowLauncherArgs { flags = "FUZZY|WORKSPACES" } },
+  { key = 'PageUp', mods = 'SHIFT', action = act.ScrollByPage(-1) },
+  { key = 'PageDown', mods = 'SHIFT', action = act.ScrollByPage(1) },
 
 }
 -- I can use the tab navigator (LDR t), but I also want to quickly navigate tabs with index
@@ -103,7 +131,7 @@ config.key_tables = {
 
 -- Tab bar
 -- I don't like the look of "fancy" tab bar
-config.use_fancy_tab_bar = false
+config.use_fancy_tab_bar = true
 config.tab_bar_at_bottom = true
 config.status_update_interval = 1000
 wezterm.on("update-right-status", function(window, pane)
